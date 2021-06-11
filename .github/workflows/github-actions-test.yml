@@ -17,21 +17,21 @@ jobs:
       - run: git config --global user.email hswongac@gmail.com
 
       - run: curl -s $URL | grep tag_name | cut -d '"' -f 4 | xargs printf "version=%s" >> $GITHUB_ENV
-      - run: echo $version | cmp -s $TXT - || echo "updated=true" >> $GITHUB_ENV
+      - run: echo $version | cmp -s $TXT - || echo "version_updated=true" >> $GITHUB_ENV
 
       - run: ./hugo new -ktest posts/keepassxc-$(echo $version | sed 's,\.,-,g')-released.md
-        if: ${{ env.updated == 'true' }}
+        if: ${{ env.version_updated == 'true' }}
 
       - run: mkdir -p data
 
       - run: echo $version > $TXT
-        if: ${{ env.updated == 'true' }}
+        if: ${{ env.version_updated == 'true' }}
 
       - run: git add content/posts/keepassxc* $TXT
-        if: ${{ env.updated == 'true' }}
+        if: ${{ env.version_updated == 'true' }}
 
       - run: git commit -m Test
-        if: ${{ env.updated == 'true' }}
+        if: ${{ env.version_updated == 'true' }}
 
       - run: git push
-        if: ${{ env.updated == 'true' }}
+        if: ${{ env.version_updated == 'true' }}
