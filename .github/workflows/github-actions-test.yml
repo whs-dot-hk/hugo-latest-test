@@ -16,7 +16,7 @@ jobs:
   CreatePost:
     runs-on: ubuntu-latest
     needs: Test
-    if: ${{needs.Test.outputs.output2 == true }}
+    if: ${{needs.Test.outputs.output2 == "true" }}
     steps:
       - run: curl -OL https://github.com/gohugoio/hugo/releases/download/v0.83.1/hugo_0.83.1_Linux-64bit.tar.gz
       - run: tar -xzvf hugo*.tar.gz hugo
