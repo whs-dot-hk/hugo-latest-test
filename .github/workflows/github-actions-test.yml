@@ -20,18 +20,18 @@ jobs:
       - run: echo $version | cmp -s $TXT - || echo "updated=true" >> $GITHUB_ENV
 
       - run: ./hugo new -ktest posts/keepassxc-$(echo $version | sed 's,\.,-,g')-released.md
-        if: ${{ env.updated }}
+        if: ${{ env.updated == true}}
 
       - run: mkdir -p data
 
       - run: echo $version > $TXT
-        if: ${{ env.updated }}
+        if: ${{ env.updated == true }}
 
       - run: git add content/posts/keepassxc* $TXT
-        if: ${{ env.updated }}
+        if: ${{ env.updated == true }}
 
       - run: git commit -m Test
-        if: ${{ env.updated }}
+        if: ${{ env.updated == true }}
 
       - run: git push
-        if: ${{ env.updated }}
+        if: ${{ env.updated == true }}
