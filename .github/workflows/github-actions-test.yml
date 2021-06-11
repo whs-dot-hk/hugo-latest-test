@@ -6,14 +6,17 @@ jobs:
     env:
       TXT: data/keepassxc.txt
       URL: https://api.github.com/repos/keepassxreboot/keepassxc/releases/latest
+    outputs:
+      output2: ${{ steps.step2.outputs.updated }}
     steps:
       - uses: actions/checkout@v2
       - run: curl -s $URL | grep tag_name | cut -d '"' -f 4 | xargs printf "version=%s" >> $GITHUB_ENV
-      - run: echo $version | cmp -s $TXT - || echo "updated=true" >> $GITHUB_ENV
+      - run: echo $version | cmp -s $TXT - || echo "::set-output name=updated::true"
+        id: step2
   CreatePost:
     runs-on: ubuntu-latest
     needs: Test
-    if: ${{ env.updated == true }}
+    if: ${{needs.Test.outputs.output1 == true }}
     steps:
       - run: curl -OL https://github.com/gohugoio/hugo/releases/download/v0.83.1/hugo_0.83.1_Linux-64bit.tar.gz
       - run: tar -xzvf hugo*.tar.gz hugo
