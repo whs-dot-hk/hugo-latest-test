@@ -22,6 +22,8 @@ jobs:
       - run: ./hugo new -ktest posts/keepassxc-$(echo $version | sed 's,\.,-,g')-released.md
         if: ${{ env.updated }}
 
+      - run: mkdir -p data
+
       - run: echo $version > $TXT
         if: ${{ env.updated }}
 
