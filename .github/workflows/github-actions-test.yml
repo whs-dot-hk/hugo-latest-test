@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: curl -s $URL | grep tag_name | cut -d '"' -f 4 | xargs printf "version=%s" >> $GITHUB_ENV
-      - run: echo $version | cmp -s $TXT - || echo "::set-output name=version::$version\n::set-output name=updated::true"
+      - run: echo $version | cmp -s $TXT - || echo "::set-output name=version::$version" && echo "::set-output name=updated::true"
         id: step2
   CreatePostIfNeeded:
     runs-on: ubuntu-latest
