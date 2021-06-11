@@ -4,10 +4,12 @@ jobs:
   Test:
     runs-on: ubuntu-latest
     env:
+      TXT: data/keepassxc.txt
       URL: https://api.github.com/repos/keepassxreboot/keepassxc/releases/latest
     steps:
       - uses: actions/checkout@v2
       - run: curl -s $URL | grep tag_name | cut -d '"' -f 4 | xargs printf "version=%s" >> $GITHUB_ENV
+      - run: cmp -s $TXT $version && exit
       - run: curl -OL https://github.com/gohugoio/hugo/releases/download/v0.83.1/hugo_0.83.1_Linux-64bit.tar.gz
       - run: tar -xzvf hugo*.tar.gz hugo
       - run: ./hugo new posts/keepassxc-$(echo $version | sed 's,\.,-,g')-released.md
