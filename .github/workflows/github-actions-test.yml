@@ -22,6 +22,7 @@ jobs:
     needs: GetVersion
     if: ${{ needs.GetVersion.outputs.updated == 'true' }}
     steps:
+      - uses: actions/checkout@v2
       - run: curl -OL $HUGO_URL
       - run: tar -xzvf hugo*.tar.gz hugo
       - run: ./hugo new -ktest posts/keepassxc-$(echo $version | sed 's,\.,-,g')-released.md
