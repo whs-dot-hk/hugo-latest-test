@@ -11,7 +11,6 @@ tags:
 ```sh
 cd ~/Downloads
 curl -OL https://github.com/keepassxreboot/keepassxc/releases/download/{{$v}}/KeePassXC-{{$v}}-x86_64.AppImage
-{{$v}}
 ```
 
 [keepassxc]: https://github.com/keepassxreboot/keepassxc
