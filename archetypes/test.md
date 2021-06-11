@@ -1,4 +1,4 @@
-{{ $v := getenv "version" }}
+{{- $v := getenv "version" -}}
 ---
 title: "{{ replace .Name "-" " " | title }}"
 date: {{ .Date }}
