@@ -12,5 +12,6 @@ jobs:
       - run: echo $version | cmp -s $TXT - || echo There is new version!
       - run: curl -OL https://github.com/gohugoio/hugo/releases/download/v0.83.1/hugo_0.83.1_Linux-64bit.tar.gz
       - run: tar -xzvf hugo*.tar.gz hugo
-      - run: ./hugo new posts/keepassxc-$(echo $version | sed 's,\.,-,g')-released.md
+      - run: ./hugo new -ktest posts/keepassxc-$(echo $version | sed 's,\.,-,g')-released.md
       - run: ls content/posts
+      - run: cat content/posts/keepassxc-*
