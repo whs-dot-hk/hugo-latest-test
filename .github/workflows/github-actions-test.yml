@@ -18,9 +18,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       HUGO_URL: https://github.com/gohugoio/hugo/releases/download/v0.83.1/hugo_0.83.1_Linux-64bit.tar.gz
-      version: ${{ needs.Test.outputs.version }}
-    needs: Test
-    if: ${{ needs.Test.outputs.updated == 'true' }}
+      version: ${{ needs.GetVersion.outputs.version }}
+    needs: GetVersion
+    if: ${{ needs.GetVersion.outputs.updated == 'true' }}
     steps:
       - run: curl -OL $HUGO_URL
       - run: tar -xzvf hugo*.tar.gz hugo
