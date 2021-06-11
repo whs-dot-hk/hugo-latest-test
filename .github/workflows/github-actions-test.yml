@@ -7,20 +7,22 @@ jobs:
       TXT: data/keepassxc.txt
       URL: https://api.github.com/repos/keepassxreboot/keepassxc/releases/latest
     outputs:
-      updated: ${{ steps.step2.outputs.updated }}
-      version: ${{ steps.step2.outputs.version }}
+      create-post: ${{ steps.set-updated.outputs.updated }}
+      version: ${{ steps.set-version.outputs.version }}
     steps:
       - uses: actions/checkout@v2
       - run: curl -s $URL | grep tag_name | cut -d '"' -f 4 | xargs printf "version=%s" >> $GITHUB_ENV
-      - run: echo $version | cmp -s $TXT - || echo "::set-output name=version::$version" && echo "::set-output name=updated::true"
-        id: step2
+      - run: echo "::set-output name=version::$version"
+        id: set-version
+      - run: echo $version | cmp -s $TXT - || echo "::set-output name=updated::true"
+        id: set-updated 
   CreatePostIfNeeded:
     runs-on: ubuntu-latest
     env:
       HUGO_URL: https://github.com/gohugoio/hugo/releases/download/v0.83.1/hugo_0.83.1_Linux-64bit.tar.gz
       version: ${{ needs.GetVersion.outputs.version }}
     needs: GetVersion
-    if: ${{ needs.GetVersion.outputs.updated == 'true' }}
+    if: ${{ needs.GetVersion.outputs.create-post == 'true' }}
     steps:
       - uses: actions/checkout@v2
       - run: curl -OL $HUGO_URL
